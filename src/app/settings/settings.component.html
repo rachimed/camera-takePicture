@@ -1,0 +1,293 @@
+<div class="base">
+    <h1 class="page-title noselect">
+        Settings
+    </h1>
+    <div>
+        <div class="settings-holder">
+            <form 
+            id="settings"
+            #settingsForm="ngForm" 
+            ng-controller="settingsForm as form" 
+            ng-submit="settingsSubmit($settingsForm)" 
+            class="settings">
+
+                <!-- <div class="form-item form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                </div> -->
+                
+                <div class="form-item form-float">
+                    <label for="cameraDetail">Camera Detail</label>
+                    <input 
+                    name="cameraDetail"
+                    type="number" 
+                    class="form-control" 
+                    required 
+                    min="0" max="1" maxlength="4" step="0.01" value="1" 
+                    [(ngModel)]="cameraDetail" 
+                    >
+                    <small id="cameraDetail" class="form-text text-muted">Please enter a multiple of 0.01 between 0 and 1. Used for the default quality of the downloaded image.</small>
+                </div>
+
+                <!-- <div class="form-item form-dropdown">
+                    <label for="imageType">Default image type</label>
+                    <br/>
+                    <div class="form-check form-check-inline">
+                        <input 
+                        id="jpg" 
+                        name="imageType" 
+                        class="imageType" 
+                        type="radio" 
+                        value="jpg" 
+                        [checked]="downloadAsJpg?'checked':''" 
+                        [(ngModel)]="downloadAsJpg" 
+                        >
+                        <label class="form-check-label" for="jpg">.jpg</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input 
+                        id="png" 
+                        name="imageType" 
+                        class="imageType" 
+                        type="radio" 
+                        value="png" 
+                        [checked]="!downloadAsJpg?'checked':''" 
+                        [(ngModel)]="downloadAsJpg" 
+                        >
+                        <label class="form-check-label" for="png">.png</label>
+                    </div>
+                    <small id="imgTypeHelp" class="form-text text-muted">Default image type when saving images to device.</small>
+                </div> -->
+
+                <div class="form-item form-check">
+                    <label class="form-check-label" for="mirrorImg">Mirror image</label>
+                    <input 
+                    id="mirrorImg" 
+                    name="mirrorImg"
+                    type="checkbox" 
+                    class="form-check-input" 
+                    [checked]="mirrorImage" 
+                    [(ngModel)]="mirrorImage" 
+                    >
+                    <small id="mirrorImgHelp" class="form-text text-muted"> Check if you want to mirror the video image.</small>
+                </div>
+
+                <div class="form-item form-check">
+                    <label class="form-check-label" for="autoDownload">Enable auto-download</label>
+                    <input 
+                    id="autoDownload" 
+                    name="autoDownload"
+                    type="checkbox" 
+                    class="form-check-input" 
+                    [checked]="autoDownload" 
+                    [(ngModel)]="autoDownload" 
+                    >
+                    <small id="autoDownloadHelp" class="form-text text-muted"> Check if you want to automatically download images to device.</small>
+                </div>
+
+                <div class="center">
+                    <button 
+                    type="submit" 
+                    value="Submit"
+                    class="btn btn-primary"
+                    form="settings"
+                    (click)="settingsSubmit(settingsForm)"
+                    >
+                    Save
+                    </button>
+                </div>
+                <br>
+                <!--  -->
+                <!-- <h2 class="page-subtitle noselect">Advanced</h2>
+                
+                <div class="form-item form-dropdown">
+                    <label for="whiteBalanceMode">White Balance</label>
+                    <br/>
+                    <div class="form-check form-check-inline">
+                        <input 
+                        id="none" 
+                        name="whiteBalanceMode" 
+                        class="whiteBalanceMode" 
+                        type="radio" 
+                        value="none" 
+                        [checked]="whiteBalanceMode=='none'?'checked':''" 
+                        [(ngModel)]="whiteBalanceMode" 
+                        >
+                        <label class="form-check-label" for="none">None</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input 
+                        id="manual" 
+                        name="whiteBalanceMode" 
+                        class="whiteBalanceMode" 
+                        type="radio" 
+                        value="manual" 
+                        [checked]="whiteBalanceMode=='manual'?'checked':''" 
+                        [(ngModel)]="whiteBalanceMode" 
+                        >
+                        <label class="form-check-label" for="manual">Manual</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input 
+                        id="single-shot" 
+                        name="whiteBalanceMode" 
+                        class="whiteBalanceMode" 
+                        type="radio" 
+                        value="single-shot" 
+                        [checked]="whiteBalanceMode=='single-shot'?'checked':''" 
+                        [(ngModel)]="whiteBalanceMode" 
+                        >
+                        <label class="form-check-label" for="single-shot">Single-shot</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input 
+                        id="continuous" 
+                        name="whiteBalanceMode" 
+                        class="whiteBalanceMode" 
+                        type="radio" 
+                        value="continuous" 
+                        [checked]="whiteBalanceMode=='continuous'?'checked':''" 
+                        [(ngModel)]="whiteBalanceMode" 
+                        >
+                        <label class="form-check-label" for="continuous">Continuous</label>
+                    </div>
+                    <br>
+                    <small id="imgTypeHelp" class="form-text text-muted">Default image white balance for your downloaded images.</small>
+                </div>
+
+                <div class="form-item form-dropdown">
+                    <label for="exposureMode">Exposure Mode</label>
+                    <br/>
+                    <div class="form-check form-check-inline">
+                        <input 
+                        id="none" 
+                        name="exposureMode" 
+                        class="exposureMode" 
+                        type="radio" 
+                        value="none" 
+                        [checked]="exposureMode=='none'?'checked':''" 
+                        [(ngModel)]="exposureMode" 
+                        >
+                        <label class="form-check-label" for="none">None</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input 
+                        id="manual" 
+                        name="exposureMode" 
+                        class="exposureMode" 
+                        type="radio" 
+                        value="manual" 
+                        [checked]="exposureMode=='manual'?'checked':''" 
+                        [(ngModel)]="exposureMode" 
+                        >
+                        <label class="form-check-label" for="manual">Manual</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input 
+                        id="single-shot" 
+                        name="exposureMode" 
+                        class="exposureMode" 
+                        type="radio" 
+                        value="single-shot" 
+                        [checked]="exposureMode=='single-shot'?'checked':''" 
+                        [(ngModel)]="exposureMode" 
+                        >
+                        <label class="form-check-label" for="single-shot">Single-shot</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input 
+                        id="continuous" 
+                        name="exposureMode" 
+                        class="exposureMode" 
+                        type="radio" 
+                        value="continuous" 
+                        [checked]="exposureMode=='continuous'?'checked':''" 
+                        [(ngModel)]="exposureMode" 
+                        >
+                        <label class="form-check-label" for="continuous">Continuous</label>
+                    </div>
+                    <br>
+                    <small id="imgTypeHelp" class="form-text text-muted">Default image exposure balance for your downloaded images.</small>
+                </div>
+
+                <div class="form-item form-dropdown">
+                    <label for="focusMode">Focus Mode</label>
+                    <br/>
+                    <div class="form-check form-check-inline">
+                        <input 
+                        id="none" 
+                        name="focusMode" 
+                        class="focusMode" 
+                        type="radio" 
+                        value="none" 
+                        [checked]="focusMode=='none'?'checked':''" 
+                        [(ngModel)]="focusMode" 
+                        >
+                        <label class="form-check-label" for="none">None</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input 
+                        id="manual" 
+                        name="focusMode" 
+                        class="focusMode" 
+                        type="radio" 
+                        value="manual" 
+                        [checked]="focusMode=='manual'?'checked':''" 
+                        [(ngModel)]="focusMode" 
+                        >
+                        <label class="form-check-label" for="manual">Manual</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input 
+                        id="single-shot" 
+                        name="focusMode" 
+                        class="focusMode" 
+                        type="radio" 
+                        value="single-shot" 
+                        [checked]="focusMode=='single-shot'?'checked':''" 
+                        [(ngModel)]="focusMode" 
+                        >
+                        <label class="form-check-label" for="single-shot">Single-shot</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input 
+                        id="continuous" 
+                        name="focusMode" 
+                        class="focusMode" 
+                        type="radio" 
+                        value="continuous" 
+                        [checked]="focusMode=='continuous'?'checked':''" 
+                        [(ngModel)]="focusMode" 
+                        >
+                        <label class="form-check-label" for="continuous">Continuous</label>
+                    </div>
+                    <br>
+                    <small id="imgTypeHelp" class="form-text text-muted">Default image focus for your downloaded images.</small>
+                </div>
+
+                <div class="center">
+                    <button 
+                    type="submit" 
+                    value="Submit"
+                    class="btn btn-primary"
+                    form="settings"
+                    (click)="settingsSubmit(settingsForm)"
+                    >
+                    Save
+                    </button>
+                </div> -->
+            </form>
+        </div>
+        <br/>
+        
+        
+        <!-- Added -->
+        <!-- {{example}} -->
+        <!--  -->
+    </div>
+    <!-- <a>
+        {{ windowHeight }}
+        {{ windowHeight }}
+    </a> -->
+    
+</div>

@@ -1,0 +1,106 @@
+<div class="main-holder" *ngIf="isCameraExist; else noCameraExist" style="background-color: rgb(99, 43, 43);">
+    <!-- <h1 class="page-title">
+        Camera
+    </h1> -->
+    <div style="text-align:center; background-color: black;">
+        <div class="camera-holder">
+            <br>
+            <br>
+            <webcam 
+            *ngIf="this.windowWidth > this.windowHeight"
+            [height]="is_fullscreen() ? 735 : 500" 
+            [width]="this.windowWidth*0.95" 
+            [trigger]="triggerObservable" 
+            (imageCapture)="handleImage($event)"
+            [switchCamera]="nextWebcamObservable" 
+            [allowCameraSwitch]=false
+            [mirrorImage]="mirrorImage"
+            [imageQuality]="imageQuality"
+            class="camera">
+            </webcam>
+            <webcam 
+            *ngIf="this.windowWidth < this.windowHeight"
+            [height]="is_fullscreen() ? 800 : 500" 
+            [width]="this.windowWidth*0.95" 
+            [trigger]="triggerObservable" 
+            (imageCapture)="handleImage($event)"
+            [switchCamera]="nextWebcamObservable" 
+            [allowCameraSwitch]=false
+            [mirrorImage]="mirrorImage"
+            [imageQuality]="imageQuality"
+            class="camera">
+            </webcam>
+            <br/>
+            <div class="btn-group">
+                <audio #soundref1 src="http://soundbible.com/grab.php?id=772&type=mp3"></audio>
+                <audio #soundref2 src="http://soundbible.com/grab.php?id=563&type=mp3"></audio>
+                
+                <button class="button" class="btn btn-outline-primary" (click)="changeWebCame(true); soundref1.play()" ngbTooltip="Switch camera input">
+                    <mat-icon class="material-icons">camera_front</mat-icon>
+                </button>
+
+                <button class="button" class="btn btn-outline-primary flash" (click)="takeSnapshot(); soundref2.play()" ngbTooltip="Take picture">
+                    <mat-icon class="material-icons">camera_alt</mat-icon>
+                </button>
+                <!-- <button class="button" class="btn btn-outline-primary" (click)="onOffWebCame()" ngbTooltip="Toggle camera on/off">
+                    <mat-icon class="material-icons">switch_camera</mat-icon>
+                </button> -->
+                <button class="button" class="btn btn-outline-primary" (click)="onToggleFullscreen(); soundref1.play()" ngbTooltip="Toggle fullscreen">
+                    <mat-icon class="material-icons">fullscreen</mat-icon>
+                </button>
+            </div>
+            <div style="height: 2rem;">
+                <p *ngIf="webcamImage && webcamImages.length < 2" class="alert-text">
+                    Scroll to view and download recent images.
+                </p>
+            </div>
+        </div>
+        <br/>
+        
+        
+        
+        
+        <!-- Added -->
+        
+        <!--  -->
+    </div>
+    
+
+    
+    <!-- <a>
+        {{ windowHeight }}
+        {{ windowHeight }}
+    </a> -->
+
+    <div *ngIf="errors.length > 0">
+        <h4>Error Messages:</h4>
+        <ul *ngFor="let error of errors">
+            <li>{{ error | json }}</li>
+        </ul>
+    </div>
+    
+</div>
+
+<!-- <style *ngIf="is_fullscreen()" type="text/css">
+    html {
+        overflow: auto;
+    }
+</style> -->
+
+<!-- <div class="webcam-image" *ngIf="webcamImage">
+    <img [src]="webcamImage.imageAsDataUrl" download="imagename.png"/>
+</div> -->
+<div class="images-holder" *ngIf="webcamImage">
+    <div class="image-holder" *ngFor="let img of webcamImages.slice().reverse(); let i = index">
+        <img class="image" [src]="img.imageAsDataUrl" download="imagename.png" (click)="ImageClick(img)"/>
+        <mat-icon class="material-icons download">download</mat-icon>
+    </div>
+</div>
+
+<ng-template #noCameraExist style="background-color: black;">
+    Camera device not available
+</ng-template>
+
+<div *ngIf="showOverlay" id="overlay">
+    <div *ngIf="flashOff()"></div>
+</div>

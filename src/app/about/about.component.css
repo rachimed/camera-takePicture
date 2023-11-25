@@ -1,0 +1,50 @@
+
+.page-title {
+    text-align:center;
+    font-weight: 600;
+    font-size: 5rem;
+    /* font-kerning: none; */
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    /* text-shadow: 0rem 0.2rem 0rem #00ffa6; */
+    letter-spacing: -0.2rem;
+}
+
+.page-subtitle {
+  text-align:center;
+  font-weight: 600;
+  font-size: 3rem;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+  /* text-shadow: 0rem 0.2rem 0rem #00ff8c; */
+  letter-spacing: 0rem;
+}
+
+.about-holder {
+  padding: 1.5rem;
+  width:100%;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+}
+
+.about {
+  /* align-self: center; */
+  /* position:static; */
+  /* position: relative; */
+  width: 30rem;
+  height: auto;
+}
+
+
+/* Utility */
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+}

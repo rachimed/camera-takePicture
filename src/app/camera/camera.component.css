@@ -1,0 +1,250 @@
+
+
+.page-title {
+    text-align:center;
+    font-weight: 600;
+    font-size: 8rem;
+    /* font-kerning: none; */
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    text-shadow: 0rem 0.2rem 0rem #00d5ff;
+    letter-spacing: -0.2rem;
+}
+
+
+.btn {
+    color: white;
+    background: none;
+    padding: 0.5rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 2rem;
+    /* margin: 2px 2px; */
+    /* transition-duration: 0.4s; */
+    transition: transform 0.08s ease-in-out 0s;
+    cursor: pointer;
+    border: none;
+    width:6rem;
+    /* transform-origin: scale(1); */
+}
+
+.btn:hover{
+    color:rgb(117, 255, 102);
+    background: none;
+
+
+    transform: scale(1.2);
+}
+
+.btn:active{
+    color:rgb(255, 255, 255);
+    transform: scale(1.5);
+}
+
+/* .flash:active ~ .main-holder {
+    visibility: hidden;
+} */
+
+.btn-group{
+    height: 4rem;
+}
+
+.material-icons{
+    font-size: 1.5rem;
+}
+
+ul.links {
+    padding-bottom: 5px;
+}
+
+/* webcam {
+    
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+} */
+
+.camera {
+    /* background-size: 100% auto; */
+    /* background-size: cover; */
+    
+    /* -webkit-transform: scaleX(-1); */
+    /* transform: scaleX(-1); */
+
+    background-size: auto 100%;
+    background-position: center center;
+}
+
+.camera-holder {
+    width:100%;
+    background-color: black;
+    position: relative;
+    /* position: static; */
+    border-color: rgb(255, 0, 0);
+    border-bottom-width: 10rem;
+    
+}
+
+.webcam-image {
+    /* position: absolute; */
+    /* position: static; */
+    /* position: sticky; */
+    /* position: relative; */
+    margin:0rem;
+    top: unset;
+    left: unset;
+    position: relative;
+    bottom: 0;
+    right: 0;
+    /* bottom: 0; */
+    /* bottom:0%; */
+    /* right:0%; */
+    transform: scale(0.3);
+    transition: filter 0.3s ease-in-out 0s;
+}
+
+.webcam-image:hover {
+    /* position: absolute; */
+    /* position: static; */
+    /* position: sticky; */
+    /* position: relative; */
+    filter: brightness(50%);
+}
+
+/* Gallery Images */
+
+.images-holder {
+    display: flex;
+    /* flex-wrap: wrap; */
+    width: 100%;
+    height: 16rem;
+    float:left;
+    padding: 1rem;
+    overflow-y: hidden;
+}
+
+.image-holder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.image {
+    width: 12rem;
+    margin: 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: filter 0.3s ease-in-out 0s;
+}
+
+.image:hover {
+    filter: brightness(40%);
+}
+
+.download {
+    position: absolute;
+    color: rgb(255, 255, 255, 0.8);
+    top: 50%;
+    left: 50%;
+    /* font-size: 3rem; */
+    text-align: center;
+    overflow: visible;
+    transform: translate(-50%, -50%) scale(2);
+    transition: transform 0.3s ease-in-out 0s;
+    pointer-events: none;
+    
+}
+
+.image:hover ~ .download {
+    color: rgb(255, 255, 255, 1);
+    transform: translate(-50%, -50%) scale(3);
+    /* visibility: hidden; */
+    /* font-size: 2rem; */
+}
+
+.alert-text {
+    color: white;
+    animation: fadeIn 500s;
+    -webkit-animation: fadeIn 500s;
+    -moz-animation: fadeIn 500s;
+    -o-animation: fadeIn 500s;
+    -ms-animation: fadeIn 500s;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    0.5% { opacity: 1; }
+    1% { opacity: 1; }
+    1.5% { opacity: 0; }
+}
+  
+@-moz-keyframes fadeIn {
+    0% { opacity: 0; }
+    0.5% { opacity: 1; }
+    1% { opacity: 1; }
+    1.5% { opacity: 0; }
+}
+
+@-webkit-keyframes fadeIn {
+    0% { opacity: 0; }
+    0.5% { opacity: 1; }
+    1% { opacity: 1; }
+    1.5% { opacity: 0; }
+}
+
+@-o-keyframes fadeIn {
+    0% { opacity: 0; }
+    0.5% { opacity: 1; }
+    1% { opacity: 1; }
+    1.5% { opacity: 0; }
+}
+
+@-ms-keyframes fadeIn {
+    0% { opacity: 0; }
+    0.5% { opacity: 1; }
+    1% { opacity: 1; }
+    1.5% { opacity: 0; }
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+ 
+::-webkit-scrollbar-track {
+    background-color: none;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    padding: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #b4b4b4; 
+}
+
+::-webkit-scrollbar-button {
+    color: black;
+    background: white;
+}
+
+
+/*  */
+
+#overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgb(255, 255, 255);
+    opacity: .70;
+    filter: alpha(opacity=70);
+    z-index: 2000;
+    transition: opacity 0.3s ease-in-out 0s;
+    pointer-events: none;
+}
