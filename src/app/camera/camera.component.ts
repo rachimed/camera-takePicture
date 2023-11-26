@@ -146,7 +146,6 @@ export class CameraComponent implements OnInit {
     let timer = setInterval(() => this.getPicture.emit(webcamImage), 1000);
     setTimeout(() => {
       clearInterval(timer);
-      alert('stop');
     }, 10000);
     this.webcamImage = webcamImage;
     this.webcamImages.push(webcamImage);
@@ -211,7 +210,7 @@ export class CameraComponent implements OnInit {
   }
 
   ImageClick(img: WebcamImage) {
-    FileSaver.saveAs(img.imageAsDataUrl, 'image.png');
+    //FileSaver.saveAs(img.imageAsDataUrl, 'image.png');
     // console.log('image :::::', img.imageAsDataUrl);
     this.cameraService.sendPictureForPrediction(img.imageAsDataUrl).subscribe({
       next: (data) => {
