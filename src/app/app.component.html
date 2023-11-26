@@ -1,9 +1,8 @@
- <div>
+<div>
   <div *ngIf="!is_fullscreen()">
     <nav class="navbar navbar-expand-lg navbar-dark bg-black">
       <div class="titleholder">
-        <a class="navbar-brand" href="#">Camera</a>
-        
+        <a class="navbar-brand" href="#">H&R</a>
 
         <mat-icon class="titleicon">camera_alt</mat-icon>
       </div>
@@ -26,13 +25,17 @@
         [ngbCollapse]="isCollapsed"
       >
         <ul class="navbar-nav mr-auto">
-           <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item">
+          <li
+            [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="nav-item"
+          >
             <a routerLink="/" class="nav-link shrink">
-              <mat-icon class="material-icons">home</mat-icon>
-              <p class="nav-text" ngbTooltip="Go to the home page">Home</p>
+              <mat-icon class="material-icons">dashboard</mat-icon>
+              <p class="nav-text" ngbTooltip="Go to the home page">dashboard</p>
             </a>
-          </li> 
-           <li
+          </li>
+          <li
             [routerLinkActive]="['active']"
             [routerLinkActiveOptions]="{ exact: true }"
             class="nav-item"
@@ -48,8 +51,10 @@
             class="nav-item"
           >
             <a routerLink="/settings" class="nav-link grow hover-yellow">
-              <mat-icon class="material-icons nav-icons">settings</mat-icon>
-              <p class="nav-text">Settings</p>
+              <mat-icon class="material-icons nav-icons"
+                >settings</mat-icon
+              >
+              <p class="nav-text">Confirguration</p>
             </a>
           </li>
           <li
@@ -64,10 +69,6 @@
               <p class="nav-text">About</p>
             </a>
           </li>
-
-           Done with nav, now right functionality 
-
-          
         </ul>
       </div>
     </nav>
@@ -77,6 +78,5 @@
   <div class="webcam-image" *ngIf="webcamImage">
     <img [src]="webcamImage.imageAsDataUrl" />
   </div>
- 
-</div>  
+</div>
 <router-outlet></router-outlet>

@@ -22,7 +22,6 @@
         [imageQuality]="imageQuality"
         class="camera"
       >
-        jjhjhjhjhjhjhj
       </webcam>
       <!-- <webcam 
             *ngIf="this.windowWidth < this.windowHeight"
@@ -47,14 +46,14 @@
           src="http://soundbible.com/grab.php?id=563&type=mp3"
         ></audio>
 
-        <button
+        <!-- <button
           class="button"
           class="btn btn-outline-primary"
           (click)="changeWebCame(true); soundref1.play()"
           ngbTooltip="Switch camera input"
         >
           <mat-icon class="material-icons">camera_front</mat-icon>
-        </button>
+        </button> -->
 
         <button
           class="button"
@@ -78,7 +77,7 @@
       </div>
       <div style="height: 2rem">
         <p *ngIf="webcamImage && webcamImages.length < 2" class="alert-text">
-          Scroll to view and download recent images.
+          Scroll Pour afficher les photos recents.
         </p>
       </div>
     </div>
@@ -122,12 +121,12 @@
       download="imagename.png"
       (click)="ImageClick(img)"
     />
-    <mat-icon class="material-icons download">download</mat-icon>
+    <mat-icon class="material-icons download">Telecharger</mat-icon>
   </div>
 </div>
 
 <ng-template #noCameraExist style="background-color: black">
-  Camera device not available
+  Camera NOn Disponible
 </ng-template>
 
 <div *ngIf="showOverlay" id="overlay">

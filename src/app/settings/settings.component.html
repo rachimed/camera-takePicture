@@ -1,35 +1,40 @@
 <div class="base">
-    <h1 class="page-title noselect">
-        Settings
-    </h1>
-    <div>
-        <div class="settings-holder">
-            <form 
-            id="settings"
-            #settingsForm="ngForm" 
-            ng-controller="settingsForm as form" 
-            ng-submit="settingsSubmit($settingsForm)" 
-            class="settings">
-
-                <!-- <div class="form-item form-group">
+  <h1 class="page-title noselect">Configuration</h1>
+  <div>
+    <div class="settings-holder">
+      <form
+        id="settings"
+        #settingsForm="ngForm"
+        ng-controller="settingsForm as form"
+        ng-submit="settingsSubmit($settingsForm)"
+        class="settings"
+      >
+        <!-- <div class="form-item form-group">
                     <label for="exampleInputPassword1">Password</label>
                     <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                 </div> -->
-                
-                <div class="form-item form-float">
-                    <label for="cameraDetail">Camera Detail</label>
-                    <input 
-                    name="cameraDetail"
-                    type="number" 
-                    class="form-control" 
-                    required 
-                    min="0" max="1" maxlength="4" step="0.01" value="1" 
-                    [(ngModel)]="cameraDetail" 
-                    >
-                    <small id="cameraDetail" class="form-text text-muted">Please enter a multiple of 0.01 between 0 and 1. Used for the default quality of the downloaded image.</small>
-                </div>
 
-                <!-- <div class="form-item form-dropdown">
+        <div class="form-item form-float">
+          <label for="cameraDetail">Camera Detail</label>
+          <input
+            name="cameraDetail"
+            type="number"
+            class="form-control"
+            required
+            min="0"
+            max="1"
+            maxlength="4"
+            step="0.01"
+            value="1"
+            [(ngModel)]="cameraDetail"
+          />
+          <small id="cameraDetail" class="form-text text-muted"
+            >Please enter a multiple of 0.01 between 0 and 1. Used for the
+            default quality of the downloaded image.</small
+          >
+        </div>
+
+        <!-- <div class="form-item form-dropdown">
                     <label for="imageType">Default image type</label>
                     <br/>
                     <div class="form-check form-check-inline">
@@ -59,46 +64,52 @@
                     <small id="imgTypeHelp" class="form-text text-muted">Default image type when saving images to device.</small>
                 </div> -->
 
-                <div class="form-item form-check">
-                    <label class="form-check-label" for="mirrorImg">Mirror image</label>
-                    <input 
-                    id="mirrorImg" 
-                    name="mirrorImg"
-                    type="checkbox" 
-                    class="form-check-input" 
-                    [checked]="mirrorImage" 
-                    [(ngModel)]="mirrorImage" 
-                    >
-                    <small id="mirrorImgHelp" class="form-text text-muted"> Check if you want to mirror the video image.</small>
-                </div>
+        <div class="form-item form-check">
+          <label class="form-check-label" for="mirrorImg">Effet mirror</label>
+          <input
+            id="mirrorImg"
+            name="mirrorImg"
+            type="checkbox"
+            class="form-check-input"
+            [checked]="mirrorImage"
+            [(ngModel)]="mirrorImage"
+          />
+          <small id="mirrorImgHelp" class="form-text text-muted">
+            Check Si vous desirez l effet Miroire.</small
+          >
+        </div>
 
-                <div class="form-item form-check">
-                    <label class="form-check-label" for="autoDownload">Enable auto-download</label>
-                    <input 
-                    id="autoDownload" 
-                    name="autoDownload"
-                    type="checkbox" 
-                    class="form-check-input" 
-                    [checked]="autoDownload" 
-                    [(ngModel)]="autoDownload" 
-                    >
-                    <small id="autoDownloadHelp" class="form-text text-muted"> Check if you want to automatically download images to device.</small>
-                </div>
+        <div class="form-item form-check">
+          <label class="form-check-label" for="autoDownload"
+            >Activerl'auto-telechargement</label
+          >
+          <input
+            id="autoDownload"
+            name="autoDownload"
+            type="checkbox"
+            class="form-check-input"
+            [checked]="autoDownload"
+            [(ngModel)]="autoDownload"
+          />
+          <small id="autoDownloadHelp" class="form-text text-muted">
+            Check Si vous voulez l auto-telechargement.</small
+          >
+        </div>
 
-                <div class="center">
-                    <button 
-                    type="submit" 
-                    value="Submit"
-                    class="btn btn-primary"
-                    form="settings"
-                    (click)="settingsSubmit(settingsForm)"
-                    >
-                    Save
-                    </button>
-                </div>
-                <br>
-                <!--  -->
-                <!-- <h2 class="page-subtitle noselect">Advanced</h2>
+        <div class="center">
+          <button
+            type="submit"
+            value="Submit"
+            class="btn btn-primary"
+            form="settings"
+            (click)="settingsSubmit(settingsForm)"
+          >
+            Sauvegarder
+          </button>
+        </div>
+        <br />
+        <!--  -->
+        <!-- <h2 class="page-subtitle noselect">Advanced</h2>
                 
                 <div class="form-item form-dropdown">
                     <label for="whiteBalanceMode">White Balance</label>
@@ -276,18 +287,16 @@
                     Save
                     </button>
                 </div> -->
-            </form>
-        </div>
-        <br/>
-        
-        
-        <!-- Added -->
-        <!-- {{example}} -->
-        <!--  -->
+      </form>
     </div>
-    <!-- <a>
+    <br />
+
+    <!-- Added -->
+    <!-- {{example}} -->
+    <!--  -->
+  </div>
+  <!-- <a>
         {{ windowHeight }}
         {{ windowHeight }}
     </a> -->
-    
 </div>
