@@ -5,7 +5,7 @@ import { AboutComponent } from './about/about.component';
 import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'main', pathMatch: 'full' },
+  { path: '', redirectTo: 'camera', pathMatch: 'full' },
   { path: 'camera', component: CameraComponent },
   { path: 'about', component: AboutComponent },
   { path: 'settings', component: SettingsComponent},

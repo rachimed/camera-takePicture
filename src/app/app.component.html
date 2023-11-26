@@ -1,8 +1,10 @@
-<div>
+ <div>
   <div *ngIf="!is_fullscreen()">
     <nav class="navbar navbar-expand-lg navbar-dark bg-black">
       <div class="titleholder">
         <a class="navbar-brand" href="#">Camera</a>
+        
+
         <mat-icon class="titleicon">camera_alt</mat-icon>
       </div>
       <button
@@ -24,13 +26,13 @@
         [ngbCollapse]="isCollapsed"
       >
         <ul class="navbar-nav mr-auto">
-          <!-- <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item">
+           <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item">
             <a routerLink="/" class="nav-link shrink">
               <mat-icon class="material-icons">home</mat-icon>
               <p class="nav-text" ngbTooltip="Go to the home page">Home</p>
             </a>
-          </li> -->
-          <li
+          </li> 
+           <li
             [routerLinkActive]="['active']"
             [routerLinkActiveOptions]="{ exact: true }"
             class="nav-item"
@@ -63,19 +65,18 @@
             </a>
           </li>
 
-          <!-- Done with nav, now right functionality -->
+           Done with nav, now right functionality 
 
-          <!-- <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
-          </li> -->
+          
         </ul>
       </div>
     </nav>
   </div>
-  <app-camera (getPicture)="handleImage($event)"></app-camera>
+  <!-- <app-camera (getPicture)="handleImage($event)"></app-camera> -->
 
   <div class="webcam-image" *ngIf="webcamImage">
     <img [src]="webcamImage.imageAsDataUrl" />
   </div>
-  <router-outlet></router-outlet>
-</div>
+ 
+</div>  
+<router-outlet></router-outlet>

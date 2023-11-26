@@ -16,6 +16,7 @@ import { CookieService } from 'ngx-cookie';
 
 import * as FileSaver from 'file-saver';
 import * as faceapi from 'face-api.js';
+import { CameraService } from '../camera.service';
 
 @Component({
   selector: 'app-camera',
@@ -65,6 +66,7 @@ export class CameraComponent implements OnInit {
 
   // constructor() { }
   constructor(
+    private cameraService: CameraService,
     private fullscreenService: FullscreenService,
     private cookieService: CookieService
   ) {}
@@ -209,7 +211,16 @@ export class CameraComponent implements OnInit {
   }
 
   ImageClick(img: WebcamImage) {
-    FileSaver.saveAs(img.imageAsDataUrl, 'image.jpg');
+    FileSaver.saveAs(img.imageAsDataUrl, 'image.png');
+    // console.log('image :::::', img.imageAsDataUrl);
+    this.cameraService.sendPictureForPrediction(img.imageAsDataUrl).subscribe({
+      next: (data) => {
+        console.log('ici la next de subscribe send pic...', data);
+      },
+      error: (err) => {
+        console.log('error pendant service camera ', err);
+      },
+    });
   }
 
   // Cookie utilities
