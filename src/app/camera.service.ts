@@ -17,4 +17,12 @@ export class CameraService {
       key: photo,
     });
   }
+
+  geCurrentFormation(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/formation`);
+  }
+
+  getEtudiantsByFormation(id:number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/formation/etudiants/${id}`);
+  }
 }

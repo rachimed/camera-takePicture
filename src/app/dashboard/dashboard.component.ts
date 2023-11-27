@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CameraService } from '../camera.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,15 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
   formations!: any[]; // Remplacer par votre type de données
-  formationSelectionnee: any; // Remplacer par votre type de données
+  formationSelectionnee: any[] = []; // Remplacer par votre type de données
 
-  constructor() {}
+  constructor(private cameraService: CameraService) {}
 
   ngOnInit() {
     // Initialiser les formations ici
+    this.cameraService.geCurrentFormation().subscribe((data) => {
+      this.formations = data;
+    });
   }
 
-  afficherDetails(formation: any) {
-    this.formationSelectionnee = formation;
+  getEtudiantsByFormation(id_formationCal: any) {
+    this.cameraService
+      .getEtudiantsByFormation(id_formationCal)
+      .subscribe((data) => {
+        this.formationSelectionnee = data;
+      });
   }
 }

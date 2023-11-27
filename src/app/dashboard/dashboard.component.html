@@ -1,47 +1,102 @@
 <div class="container mt-4">
-    <h2 class="mb-3">Liste des Formations</h2>
-    <table class="table table-striped">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Formation</th>
-                <th scope="col">Présents (9h-12h)</th>
-                <th scope="col">Absents (9h-12h)</th>
-                <th scope="col">Présents (13h-17h)</th>
-                <th scope="col">Absents (13h-17h)</th>
-                <th scope="col">Total Présents</th>
-            </tr>
+  <h2 class="mb-3">Liste des Formations</h2>
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Formation</th>
+        <th scope="col">Présents (9h-12h)</th>
+        <th scope="col">Absents (9h-12h)</th>
+        <th scope="col">Présents (13h-17h)</th>
+        <th scope="col">Absents (13h-17h)</th>
+        <th scope="col">Total Présents</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let formation of formations"
+        (click)="getEtudiantsByFormation(formation.id_formCal)"
+      >
+        <td>
+          {{ formation.nom }}:
+          {{ formation.date_debut | date : "dd/MM/yy" }}->{{
+            formation.date_fin | date : "dd/MM/yy"
+          }}
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="formationSelectionnee.length > 0; else noEtudiants">
+    <div class="float-left col-6">
+      <h3>
+        Détails Presénce Matinale :
+        <span class="badge badge-dark">
+          {{ formationSelectionnee.length }}
+        </span>
+      </h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">nom</th>
+            <th scope="col">prenom</th>
+            <th scope="col">present</th>
+          </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let formation of formations">
-                <td scope="row" (click)="afficherDetails(formation)">{{ formation.nom }}</td>
-                <td>{{ formation.presencesMatin }}</td>
-                <td>{{ formation.absencesMatin }}</td>
-                <td>{{ formation.presencesAprem }}</td>
-                <td>{{ formation.absencesAprem }}</td>
-                <td>{{ formation.totalPresents }}</td>
-            </tr>
+          <tr
+            *ngFor="let etudiant of formationSelectionnee; let i = index"
+            [class.bg-info.text-white.font-weight-bold]="
+              etudiant.presence_date == null
+            "
+          >
+            <th scope="row">{{ i }}</th>
+            <td>{{ etudiant.nom }}</td>
+            <td>{{ etudiant.prenom }}</td>
+            <td>{{ etudiant.presence_date | date : "hh/mm a" }}</td>
+          </tr>
         </tbody>
-    </table>
-
-    <div *ngIf="formationSelectionnee">
-        <h3 class="mt-4">Détails pour {{ formationSelectionnee.nom }}</h3>
-        <div class="row">
-            <div class="col-md-6">
-                <h4>Élèves Présents</h4>
-                <ul class="list-group">
-                    <li class="list-group-item" *ngFor="let eleve of formationSelectionnee.elevesPresents">
-                        {{ eleve.nom }}
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-6">
-                <h4>Élèves Absents</h4>
-                <ul class="list-group">
-                    <li class="list-group-item" *ngFor="let eleve of formationSelectionnee.elevesAbsents">
-                        {{ eleve.nom }}
-                    </li>
-                </ul>
-            </div>
-        </div>
+      </table>
     </div>
+
+    <div class="float-right col-6">
+      <h3>
+        Détails Presénce Apres-Midi :
+        <span class="badge badge-dark">
+          {{ formationSelectionnee.length }}
+        </span>
+      </h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">nom</th>
+            <th scope="col">prenom</th>
+            <th scope="col">present</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let etudiant of formationSelectionnee; let i = index"
+            [class.bg-info.text-white.font-weight-bold]="
+              etudiant.presence_date == null
+            "
+          >
+            <th scope="row">{{ i }}</th>
+            <td>{{ etudiant.nom }}</td>
+            <td>{{ etudiant.prenom }}</td>
+            <td>{{ etudiant.presence_date | date : "hh/mm a" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <ng-template #noEtudiants>
+    <h3 class="mt-4 alert alert-warning text-center">Aucun Etudiants</h3>
+  </ng-template>
 </div>
