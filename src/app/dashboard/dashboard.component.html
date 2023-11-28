@@ -31,12 +31,13 @@
     </tbody>
   </table>
 
-  <div *ngIf="formationSelectionnee.length > 0; else noEtudiants">
+  <!-- <div *ngIf="formationSelectionnee.length > 0; else noEtudiants"> -->
+  <div>
     <div class="float-left col-6">
       <h3>
         Détails Presénce Matinale :
         <span class="badge badge-dark">
-          {{ formationSelectionnee.length }}
+          {{ presenceMatin.length }}
         </span>
       </h3>
       <table class="table table-striped">
@@ -50,7 +51,7 @@
         </thead>
         <tbody>
           <tr
-            *ngFor="let etudiant of formationSelectionnee; let i = index"
+            *ngFor="let etudiant of presenceMatin; let i = index"
             [class.bg-info.text-white.font-weight-bold]="
               etudiant.presence_date == null
             "
@@ -64,7 +65,7 @@
       </table>
     </div>
 
-    <div class="float-right col-6">
+    <div class="float-right col-6" *ngIf="messageAVM; else noEtudiants">
       <h3>
         Détails Presénce Apres-Midi :
         <span class="badge badge-dark">
@@ -82,7 +83,7 @@
         </thead>
         <tbody>
           <tr
-            *ngFor="let etudiant of formationSelectionnee; let i = index"
+            *ngFor="let etudiant of presenceApresMidi; let i = index"
             [class.bg-info.text-white.font-weight-bold]="
               etudiant.presence_date == null
             "
@@ -97,6 +98,8 @@
     </div>
   </div>
   <ng-template #noEtudiants>
-    <h3 class="mt-4 alert alert-warning text-center">Aucun Etudiants</h3>
+    <h3 class="mt-4 alert alert-warning text-center col-6 float-right">
+      Aucun Etudiants:Attente APM
+    </h3>
   </ng-template>
 </div>
