@@ -6,6 +6,7 @@ import {
   ViewChild,
   ElementRef,
   HostListener,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { interval, Observable, Subject } from 'rxjs';
@@ -31,6 +32,7 @@ export class CameraComponent implements OnInit {
   @Output() getPicture = new EventEmitter<WebcamImage>();
   showWebcam = true;
   isCameraExist = true;
+  detectedPersonne: string = '';
 
   errors: WebcamInitError[] = [];
 
@@ -68,7 +70,8 @@ export class CameraComponent implements OnInit {
   constructor(
     private cameraService: CameraService,
     private fullscreenService: FullscreenService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   async ngOnInit() {
@@ -215,6 +218,8 @@ export class CameraComponent implements OnInit {
     this.cameraService.sendPictureForPrediction(img.imageAsDataUrl).subscribe({
       next: (data) => {
         console.log('ici la next de subscribe send pic...', data);
+        this.detectedPersonne = data;
+        this.changeDetectorRef.detectChanges();
       },
       error: (err) => {
         console.log('error pendant service camera ', err);

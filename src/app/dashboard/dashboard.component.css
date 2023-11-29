@@ -1,25 +1,32 @@
 .dashboard-container {
-    margin: 20px;
+  margin: 20px;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
-table, th, td {
-    border: 1px solid black;
+table,
+th,
+td {
+  border: 1px solid black;
 }
 
-th, td {
-    padding: 8px;
-    text-align: left;
+th,
+td {
+  padding: 8px;
+  text-align: left;
 }
 
 th {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
 td:hover {
-    background-color: #ddd;
+  text-size-adjust: 100;
+}
+
+.bg-warning {
+  background-color: yellow;
 }

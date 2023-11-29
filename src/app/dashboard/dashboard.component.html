@@ -5,16 +5,15 @@
       <tr>
         <th scope="col">Formation</th>
         <th scope="col">Présents (9h-12h)</th>
-        <th scope="col">Absents (9h-12h)</th>
+
         <th scope="col">Présents (13h-17h)</th>
-        <th scope="col">Absents (13h-17h)</th>
-        <th scope="col">Total Présents</th>
       </tr>
     </thead>
     <tbody>
       <tr
         *ngFor="let formation of formations"
         (click)="getEtudiantsByFormation(formation.id_formCal)"
+        [class.bg-warning]="formation.id_formCal === selectedFormationId"
       >
         <td>
           {{ formation.nom }}:
@@ -22,11 +21,10 @@
             formation.date_fin | date : "dd/MM/yy"
           }}
         </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td [class.bg-info.text-white.font-weight-bold]>
+          {{ formation.nombre_eleves_presents }}
+        </td>
+        <td>{{ formation.nombre_eleves_presents_APM }}</td>
       </tr>
     </tbody>
   </table>
@@ -44,22 +42,48 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">nom</th>
-            <th scope="col">prenom</th>
-            <th scope="col">present</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Prenom</th>
+            <th scope="col">Present</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr
-            *ngFor="let etudiant of presenceMatin; let i = index"
+            *ngFor="let etudiant of presenceMatin; trackBy: trackByFn"
+            [ngClass]="{
+              'bg-success.text-white.font-weight-bold': etudiant.presentMatin
+                ? 'bg-info'
+                : 'bg-warning'
+            }"
             [class.bg-info.text-white.font-weight-bold]="
-              etudiant.presence_date == null
+              etudiant.presence_date == null || !etudiant.presentMatin
             "
           >
-            <th scope="row">{{ i }}</th>
+            <th scope="row">{{ etudiant.id }}</th>
             <td>{{ etudiant.nom }}</td>
             <td>{{ etudiant.prenom }}</td>
-            <td>{{ etudiant.presence_date | date : "hh/mm a" }}</td>
+            <td>
+              {{
+                etudiant.presentMatin
+                  ? (etudiant.presence_date | date : "hh/mm a")
+                  : "absent"
+              }}
+            </td>
+            <td>
+              <button
+                *ngIf="!etudiant.presentMatin"
+                (click)="
+                  absentToPresent(etudiant.id, etudiant.id_formation_cal)
+                "
+                class="btn btn-danger"
+                class="btn btn-success"
+                class="btn btn-danger"
+                class="btn btn-success"
+              >
+                <i class="fas fa-check"></i>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -79,19 +103,36 @@
             <th scope="col">nom</th>
             <th scope="col">prenom</th>
             <th scope="col">present</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr
-            *ngFor="let etudiant of presenceApresMidi; let i = index"
+            *ngFor="let etudiant of presenceApresMidi"
             [class.bg-info.text-white.font-weight-bold]="
-              etudiant.presence_date == null
+              etudiant.presence_date == null || !etudiant.presentApresMidi
             "
           >
-            <th scope="row">{{ i }}</th>
+            <th scope="row">{{ etudiant.id }}</th>
             <td>{{ etudiant.nom }}</td>
             <td>{{ etudiant.prenom }}</td>
-            <td>{{ etudiant.presence_date | date : "hh/mm a" }}</td>
+            <td>
+              {{ etudiant.presentApresMidi ? "Présent" : "absent" }}
+            </td>
+            <td>
+              <button
+                *ngIf="!etudiant.presentApresMidi && isApresMidi()"
+                (click)="
+                  absentToPresent2(etudiant.id, etudiant.id_formation_cal)
+                "
+                class="btn btn-danger"
+                class="btn btn-success"
+                class="btn btn-danger"
+                class="btn btn-success"
+              >
+                <i class="fas fa-check"></i>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -102,4 +143,12 @@
       Aucun Etudiants:Attente APM
     </h3>
   </ng-template>
+
+  <ng-template *ngIf="estSelectionne == false">
+    <h3 class="mt-4 alert alert-warning text-center col-6 float-left">
+      Aucune Formation Selectionnée
+    </h3>
+  </ng-template>
 </div>
+
+<!-- Pour les sessions du matin -->
