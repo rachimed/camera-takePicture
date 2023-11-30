@@ -22,9 +22,12 @@
           }}
         </td>
         <td [class.bg-info.text-white.font-weight-bold]>
-          {{ formation.nombre_eleves_presents }}
+          {{ formation.nombre_eleves_presents }} / {{ formation.total_inscrit }}
         </td>
-        <td>{{ formation.nombre_eleves_presents_APM }}</td>
+        <td>
+          {{ formation.nombre_eleves_presents_APM }} /
+          {{ formation.total_inscrit }}
+        </td>
       </tr>
     </tbody>
   </table>
@@ -66,7 +69,7 @@
             <td>
               {{
                 etudiant.presentMatin
-                  ? (etudiant.presence_date | date : "hh/mm a")
+                  ? (etudiant.presence_date | date : "dd/MM/yy HH:mm" : "GMT")
                   : "absent"
               }}
             </td>
@@ -117,7 +120,11 @@
             <td>{{ etudiant.nom }}</td>
             <td>{{ etudiant.prenom }}</td>
             <td>
-              {{ etudiant.presentApresMidi ? "Présent" : "absent" }}
+              {{
+                etudiant.presentApresMidi
+                  ? (etudiant.presence_date | date : "dd/MM/yy HH:mm" : "GMT")
+                  : "absent"
+              }}
             </td>
             <td>
               <button

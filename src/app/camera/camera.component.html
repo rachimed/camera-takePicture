@@ -61,6 +61,7 @@
               </button> -->
 
               <button
+                [class.d-none]="spinnerBlackCamera"
                 class="button"
                 class="btn btn-outline-primary flash"
                 (click)="takeSnapshot(); soundref2.play()"
@@ -72,6 +73,7 @@
                           <mat-icon class="material-icons">switch_camera</mat-icon>
                       </button> -->
               <button
+                [class.d-none]="spinnerBlackCamera"
                 class="button"
                 class="btn btn-outline-primary"
                 (click)="onToggleFullscreen(); soundref1.play()"
@@ -143,17 +145,33 @@
     </div>
 
     <!-- Colonne pour le message -->
-    <div class="col-md-4">
-      <div class="info-panel bg-light border rounded p-3">
-        <h3>Informations Étudiant</h3>
-        <p><strong>Nom:</strong> {{ detectedPersonne }}</p>
-        <p>
-          <strong>Statut:</strong> <span class="text-success">Présent</span>
-        </p>
-        <p><strong>Formation:</strong> IA</p>
-        <p><i class="fas fa-check-circle fa-3x text-success"></i></p>
-        <p><i class="fas fa-times-circle fa-3x text-danger"></i></p>
+    <div class="col-md-4 mon-div-bootstrap">
+      <app-message *ngIf="!confirmationDetection"></app-message>
+
+      <div class="card text-center messageAlert">
+        <div class="card-header" style="color: black">Resultat</div>
+        <div class="card-body">
+          <h2 class="card-title" style="color: black">
+            Confirmation de La detection
+          </h2>
+          <p class="card-text" style="color: black">
+            La personne Detectée est : "{{ detectedPersonne }}"
+          </p>
+        </div>
+        <div class="card-footer text-muted">
+          <button
+            class="btnsuccess"
+            (click)="onConfirmDetection(idEtudiant, idFormation)"
+          >
+            Confirmer
+          </button>
+          <button class="btncancel">Annuler</button>
+        </div>
       </div>
     </div>
   </div>
+</div>
+<div class="center" *ngIf="spinnerBlackCamera">
+  <div class="ring"></div>
+  <span>loading...</span>
 </div>

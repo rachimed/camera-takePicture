@@ -33,10 +33,15 @@ export class CameraComponent implements OnInit {
   showWebcam = true;
   isCameraExist = true;
   detectedPersonne: string = '';
+  idFormation: number = 0;
+  idEtudiant: number = 0;
 
   errors: WebcamInitError[] = [];
+  //true pour qu on puisse le tester ....
+  confirmationDetection: boolean = true;
 
   public showOverlay: boolean = false;
+  spinnerBlackCamera: boolean = false;
 
   // window width and height
   public windowWidth: any;
@@ -213,15 +218,22 @@ export class CameraComponent implements OnInit {
   }
 
   ImageClick(img: WebcamImage) {
+    this.spinnerBlackCamera = true;
     //FileSaver.saveAs(img.imageAsDataUrl, 'image.png');
     // console.log('image :::::', img.imageAsDataUrl);
     this.cameraService.sendPictureForPrediction(img.imageAsDataUrl).subscribe({
       next: (data) => {
+        console.log(data);
+        this.idEtudiant = data.resultat.id;
+        this.idFormation = data.resultat.id_formation_cal;
+        console.log('id et id formation : ', this.idEtudiant, this.idFormation);
+        this.spinnerBlackCamera = false;
         console.log('ici la next de subscribe send pic...', data);
         this.detectedPersonne = data;
         this.changeDetectorRef.detectChanges();
       },
       error: (err) => {
+        this.spinnerBlackCamera = false;
         console.log('error pendant service camera ', err);
       },
     });
@@ -251,6 +263,35 @@ export class CameraComponent implements OnInit {
       this.changeWebCame(true);
     } else if (e.key == 'd' || e.key == 'D') {
       this.onToggleFullscreen();
+    }
+  }
+
+  onConfirmDetection(etudiantID: number, formationID: number) {
+    const maintenant = new Date();
+    const midiEtDemi = new Date();
+
+    midiEtDemi.setHours(12, 30, 0);
+
+    if (maintenant < midiEtDemi) {
+      // Il est avant 12h30
+      this.cameraService.absentToPresent(etudiantID, formationID).subscribe({
+        next: (data) => {
+          console.log('data onConfirmDetection', data);
+        },
+        error: (err) => {
+          console.log('error dans onConfirmDetection', err);
+        },
+      });
+    } else {
+      // Il est après 12h30
+      this.cameraService.absentToPresent2(etudiantID, formationID).subscribe({
+        next: (data) => {
+          console.log('data onConfirmDetection apresM :');
+        },
+        error: (err) => {
+          console.log('error dans onConfirmDetection', err);
+        },
+      });
     }
   }
 }

@@ -1,21 +1,127 @@
 /* You can add global styles to this file, and also import other style files */
 body {
-    background-color: white;
+  background-color: white;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 body::-webkit-scrollbar {
-    display: none;
-}
-  
-/* Hide scrollbar for IE, Edge and Firefox */
-body {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+  display: none;
 }
 
-html { 
-    scroll-behavior: smooth; 
-} 
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: montserrat;
+  background: rgb(131, 186, 249);
+  font-size: 1.5em;
+  text-decoration-color: antiquewhite;
+  color: aliceblue;
+}
+
+.center {
+  display: flex;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.ring {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  animation: ring 2s linear infinite;
+}
+
+@keyframes ring {
+  0% {
+    transform: rotate(0deg);
+    box-shadow: 1px 5px 2px #e65c00;
+  }
+
+  50% {
+    transform: rotate(180deg);
+    box-shadow: 1px 5px 2px #18b201;
+  }
+
+  100% {
+    transform: rotate(360deg);
+    box-shadow: 1px 5px 2px #0456c8;
+  }
+}
+
+.ring:before {
+  position: fixed;
+  content: "";
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+span {
+  color: #959191;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 200px;
+  animation: text 3s ease-in-out infinite;
+}
+
+@keyframes text {
+  50% {
+    color: rgb(244, 238, 238);
+  }
+}
+:host ::ng-deep .mon-div-bootstrap {
+  margin: 10px; /* Marge externe */
+  padding: 15px; /* Marge interne */
+  width: 100%; /* Largeur */
+  height: auto; /* Hauteur */
+
+  font-family: "Arial", sans-serif; /* Police de caractère */
+  font-size: 16px; /* Taille de la police */
+  text-align: center; /* Alignement du texte */
+
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Ombre extérieure */
+  border-radius: 5px; /* Coins arrondis */
+
+  @media (max-width: 600px) {
+    font-size: 14px; /* Taille de la police sur petits écrans */
+  }
+  transition: background-color 0.3s ease; /* Transition pour la couleur de fond */
+}

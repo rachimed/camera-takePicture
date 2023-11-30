@@ -26,6 +26,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FullscreenService } from './fullscreen-service.service';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { MessageComponent } from './message/message.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     AboutComponent,
     SettingsComponent,
     DashboardComponent,
+    MessageComponent,
   ],
   imports: [
     BrowserModule,

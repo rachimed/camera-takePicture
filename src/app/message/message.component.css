@@ -1,0 +1,13 @@
+.messageAlert {
+  margin-top: 2vh;
+}
+.logoTechnocite {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
