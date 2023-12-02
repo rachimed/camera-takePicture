@@ -149,10 +149,12 @@ export class CameraComponent implements OnInit {
   handleImage(webcamImage: WebcamImage) {
     console.log('je suis dans handelImage');
     this.getPicture.emit(webcamImage);
+    
     this.detectFaces(webcamImage);
 
     let timer = setInterval(() => this.getPicture.emit(webcamImage), 1000);
     setTimeout(() => {
+      console.log('je suis dans handelImage avantsetTimeout');
       clearInterval(timer);
     }, 10000);
     this.webcamImage = webcamImage;
@@ -166,8 +168,9 @@ export class CameraComponent implements OnInit {
     }, 220);
 
     if (this.autoDownload == true) {
-      this.ImageClick(webcamImage);
+      
     }
+    this.ImageClick(webcamImage)
   }
 
   flashOff() {
@@ -181,10 +184,12 @@ export class CameraComponent implements OnInit {
   }
 
   get triggerObservable(): Observable<void> {
+    
     return this.trigger.asObservable();
   }
 
   get nextWebcamObservable(): Observable<boolean | string> {
+    
     return this.nextWebcam.asObservable();
   }
 
@@ -223,6 +228,7 @@ export class CameraComponent implements OnInit {
     // console.log('image :::::', img.imageAsDataUrl);
     this.cameraService.sendPictureForPrediction(img.imageAsDataUrl).subscribe({
       next: (data) => {
+        this.spinnerBlackCamera = false;
         console.log(data);
         this.idEtudiant = data.resultat.id;
         this.idFormation = data.resultat.id_formation_cal;
@@ -243,6 +249,7 @@ export class CameraComponent implements OnInit {
 
   //https://github.com/salemdar/ngx-cookie#get
   getCookie(key: string) {
+    console.log('je suis ds getCookies')
     return this.cookieService.get(key);
   }
 
