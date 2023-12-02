@@ -67,6 +67,7 @@
                 (click)="takeSnapshot(); soundref2.play()"
                 ngbTooltip="Take picture"
               >
+              
                 <mat-icon class="material-icons">camera_alt</mat-icon>
               </button>
               <!-- <button class="button" class="btn btn-outline-primary" (click)="onOffWebCame()" ngbTooltip="Toggle camera on/off">
@@ -121,6 +122,7 @@
           <img [src]="webcamImage.imageAsDataUrl" download="imagename.png"/>
       </div> -->
       <div class="images-holder" *ngIf="webcamImage">
+        
         <div
           class="image-holder"
           *ngFor="let img of webcamImages.slice().reverse(); let i = index"
@@ -131,6 +133,7 @@
             download="imagename.png"
             (click)="ImageClick(img)"
           />
+         
           <mat-icon class="material-icons download">Telecharger</mat-icon>
         </div>
       </div>
@@ -144,18 +147,24 @@
       </div>
     </div>
 
-    <!-- Colonne pour le message -->
+    <!-- Colonne pour le message de confirmation identité -->
     <div class="col-md-4 mon-div-bootstrap">
-      <app-message *ngIf="!confirmationDetection"></app-message>
+      <div
+        class="alert alert-warning text-center"
+        *ngIf="showMessagePresenceFait"
+      >
+        <strong>Merci ! Vous etes declaré present aujourd'hui !</strong>
+      </div>
+      <app-message *ngIf="confirmationDetection"></app-message>
 
-      <div class="card text-center messageAlert">
+      <div class="card text-center messageAlert" *ngIf="confirmationIdentite">
         <div class="card-header" style="color: black">Resultat</div>
         <div class="card-body">
           <h2 class="card-title" style="color: black">
             Confirmation de La detection
           </h2>
           <p class="card-text" style="color: black">
-            La personne Detectée est : "{{ detectedPersonne }}"
+            La personne Detectée est : "{{ etudiantNom }}"
           </p>
         </div>
         <div class="card-footer text-muted">
@@ -165,7 +174,54 @@
           >
             Confirmer
           </button>
-          <button class="btncancel">Annuler</button>
+          <button class="btncancel" (click)="onCancelDetection()">
+            Annuler
+          </button>
+        </div>
+      </div>
+      <!-- ici on affiche la card de confirmation pour prendre photo -->
+      <div class="card" style="width: 18rem" *ngIf="cardPhotoConfirmation">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-XZ7o1DTkgoHhtd7VluGsBwiO7ikNSNo61w&usqp=CAU"
+          class="card-img-top"
+          alt="..."
+        />
+        <div
+          class="card-body"
+          style="
+            color: black;
+            font-weight: bold;
+            font-size: 15px !important;
+            text-align: center;
+          "
+        >
+          <h2 class="card-title">Bienvenue</h2>
+          <p class="card-text">
+            Preparez vous en face de la camera et respectez ces consigne:<br />
+            1-vous pouvez faire des visages: souriant,faché,et demi faché...
+            <br />
+            2- ne pas trop bouger pour eviter les phots Flous <br />
+            3-d'attendre jusqu a la fin (environ 30 secondes)<br />
+            -Merci de rester patient.
+          </p>
+          <a href="#" class="btnsuccess">Vous etes préts ?</a>
+        </div>
+      </div>
+      <div>
+        <div class="alert alert-warning text-center" *ngIf="createNewEtudiant">
+          <strong>Vous n'etes reconnus parmis nos inscrits!! <br /> </strong>
+          <button
+            type="button"
+            class="btnsuccess"
+            data-toggle="modal"
+            data-target="#exampleModal"
+            (click)="listeFormation()"
+          >
+            Confirmer
+          </button>
+          <button class="btncancel" (click)="onCancelDetection()">
+            Annuler
+          </button>
         </div>
       </div>
     </div>
@@ -174,4 +230,147 @@
 <div class="center" *ngIf="spinnerBlackCamera">
   <div class="ring"></div>
   <span>loading...</span>
+</div>
+
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<!-- <div
+  class="modal fade"
+  id="exampleModalCenter"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Inscription :</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">...</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div
+        class="modal-header"
+        style="
+          color: black;
+          font-weight: bold;
+          font-size: 15px !important;
+          text-align: center;
+        "
+      >
+        <h2 class="modal-title" id="exampleModalLabel">
+          Inscription nouvel Etudiant :
+        </h2>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body" style="color: black">
+        <form action="" [formGroup]="donneeEtudiant">
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label"
+              >Nom :
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Nom: Ayouzi"
+              formControlName="nom"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label"
+              >Prenom:
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Prenom: Michel"
+              formControlName="prenom"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label"
+              >Age:
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="55 Ans"
+              formControlName="age"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label"
+              >Formation:
+            </label>
+            <select
+              name="formation"
+              id="idformation"
+              class="form-control"
+              formControlName="formation"
+            >
+              <option value="">Choix de Formation</option>
+              <option
+                *ngFor="let f of formationListe"
+                value="{{ f.id_formCal }}"
+              >
+                {{ f.nom }}-{{ f.date_debut | date : "dd/MM/yyyy" }}-{{
+                  f.date_fin | date : "dd/MM/yyyy"
+                }}
+              </option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btncancel"
+          (click)="onCancelDetection()"
+          data-bs-dismiss="modal"
+        >
+          Fermer
+        </button>
+        <button
+          type="button"
+          class="btnsuccess"
+          (click)="ajoutNewEtudiant()"
+          [disabled]="!donneeEtudiant.valid"
+        >
+          Sauvegarder
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

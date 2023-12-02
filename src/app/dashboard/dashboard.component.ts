@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
     this.loadData();
     this.refreshInterval = setInterval(() => {
       this.loadData();
-    }, 50000);
+    }, 5000);
     // Initialiser les formations ici
 
     const now = new Date();

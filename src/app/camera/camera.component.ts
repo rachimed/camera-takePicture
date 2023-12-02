@@ -9,7 +9,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
-import { interval, Observable, Subject } from 'rxjs';
+import { interval, Observable, Subject, timeout } from 'rxjs';
 
 import { FullscreenService } from '../fullscreen-service.service';
 
@@ -18,6 +18,7 @@ import { CookieService } from 'ngx-cookie';
 import * as FileSaver from 'file-saver';
 import * as faceapi from 'face-api.js';
 import { CameraService } from '../camera.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-camera',
@@ -28,6 +29,8 @@ export class CameraComponent implements OnInit {
   // //ADDED
   // @ViewChild('videoCamera', {static: true}) videoCamera: ElementRef;
   // @ViewChild('canvas', {static: true}) canvas: ElementRef;
+  @ViewChild('exampleModal')
+  modal!: ElementRef;
 
   @Output() getPicture = new EventEmitter<WebcamImage>();
   showWebcam = true;
@@ -35,10 +38,17 @@ export class CameraComponent implements OnInit {
   detectedPersonne: string = '';
   idFormation: number = 0;
   idEtudiant: number = 0;
+  etudiantNom: string = '';
+  formationListe: any[] = [];
+  donneeEtudiant!: FormGroup;
 
   errors: WebcamInitError[] = [];
   //true pour qu on puisse le tester ....
   confirmationDetection: boolean = true;
+  createNewEtudiant: boolean = false;
+  showMessagePresenceFait: boolean = false;
+  confirmationIdentite: boolean = false;
+  cardPhotoConfirmation: boolean = false;
 
   public showOverlay: boolean = false;
   spinnerBlackCamera: boolean = false;
@@ -77,9 +87,17 @@ export class CameraComponent implements OnInit {
     private fullscreenService: FullscreenService,
     private cookieService: CookieService,
     private changeDetectorRef: ChangeDetectorRef
-  ) {}
+  ) {
+    this.donneeEtudiant = new FormGroup({
+      nom: new FormControl('', [Validators.required]),
+      prenom: new FormControl('', [Validators.required]),
+      age: new FormControl('', [Validators.required]),
+      formation: new FormControl('', [Validators.required]),
+    });
+  }
 
   async ngOnInit() {
+    this.showMessagePresenceFait = false;
     await faceapi.nets.tinyFaceDetector.loadFromUri('assets/models');
     await faceapi.nets.faceLandmark68Net.loadFromUri('assets/models');
 
@@ -149,6 +167,7 @@ export class CameraComponent implements OnInit {
   handleImage(webcamImage: WebcamImage) {
     console.log('je suis dans handelImage');
     this.getPicture.emit(webcamImage);
+
     
     this.detectFaces(webcamImage);
 
@@ -160,7 +179,7 @@ export class CameraComponent implements OnInit {
     this.webcamImage = webcamImage;
     this.webcamImages.push(webcamImage);
 
-    this.showWebcam = false;
+    this.showWebcam = true;
 
     this.showOverlay = !this.showOverlay;
     setTimeout(() => {
@@ -194,7 +213,7 @@ export class CameraComponent implements OnInit {
   }
 
   facingMode: string = 'user'; //Set front camera
-  allowCameraSwitch = false;
+  allowCameraSwitch = true;
 
   public get videoOptions(): MediaTrackConstraints {
     // https://www.npmjs.com/package/ngx-webcam
@@ -230,13 +249,31 @@ export class CameraComponent implements OnInit {
       next: (data) => {
         this.spinnerBlackCamera = false;
         console.log(data);
-        this.idEtudiant = data.resultat.id;
-        this.idFormation = data.resultat.id_formation_cal;
-        console.log('id et id formation : ', this.idEtudiant, this.idFormation);
+        if (data.state == '0') {
+          this.createNewEtudiant = true;
+          this.confirmationDetection = false;
+          this.showMessagePresenceFait = false;
+          this.confirmationIdentite = false;
+          this.spinnerBlackCamera = false;
+        } else {
+          this.confirmationIdentite = true;
+          this.spinnerBlackCamera = false;
+          this.confirmationDetection = false;
+          this.idEtudiant = data.resultat.id;
+          this.idFormation = data.resultat.id_formation_cal;
+          this.etudiantNom = data.nom;
+          console.log(
+            'id et id formation : ',
+            this.idEtudiant,
+            this.idFormation
+          );
+          this.detectedPersonne = data;
+        }
+
         this.spinnerBlackCamera = false;
         console.log('ici la next de subscribe send pic...', data);
-        this.detectedPersonne = data;
-        this.changeDetectorRef.detectChanges();
+
+        //this.changeDetectorRef.detectChanges();
       },
       error: (err) => {
         this.spinnerBlackCamera = false;
@@ -272,33 +309,84 @@ export class CameraComponent implements OnInit {
       this.onToggleFullscreen();
     }
   }
+  onCancelDetection() {
+    this.createNewEtudiant = false;
+    this.showMessagePresenceFait = false;
+    this.confirmationDetection = true;
+    this.confirmationIdentite = false;
+    this.cardPhotoConfirmation = false;
+  }
 
   onConfirmDetection(etudiantID: number, formationID: number) {
     const maintenant = new Date();
     const midiEtDemi = new Date();
+    (this.spinnerBlackCamera = true), (this.confirmationIdentite = false);
 
     midiEtDemi.setHours(12, 30, 0);
 
     if (maintenant < midiEtDemi) {
       // Il est avant 12h30
-      this.cameraService.absentToPresent(etudiantID, formationID).subscribe({
-        next: (data) => {
-          console.log('data onConfirmDetection', data);
-        },
-        error: (err) => {
-          console.log('error dans onConfirmDetection', err);
-        },
-      });
+      this.cameraService
+        .absentToPresent(this.idEtudiant, this.idFormation)
+        .subscribe({
+          next: (data) => {
+            (this.spinnerBlackCamera = false),
+              console.log('data onConfirmDetection', data);
+            this.showMessagePresenceFait = true;
+            setTimeout(() => {
+              this.onCancelDetection();
+            }, 10000);
+          },
+          error: (err) => {
+            console.log('error dans onConfirmDetection', err);
+          },
+        });
     } else {
       // Il est après 12h30
-      this.cameraService.absentToPresent2(etudiantID, formationID).subscribe({
-        next: (data) => {
-          console.log('data onConfirmDetection apresM :');
-        },
-        error: (err) => {
-          console.log('error dans onConfirmDetection', err);
-        },
-      });
+      this.cameraService
+        .absentToPresent2(this.idEtudiant, this.idFormation)
+        .subscribe({
+          next: (data) => {
+            (this.spinnerBlackCamera = false),
+              console.log('data onConfirmDetection apresM :');
+            this.showMessagePresenceFait = true;
+            setTimeout(() => {
+              this.onCancelDetection();
+            }, 10000);
+          },
+          error: (err) => {
+            console.log('error dans onConfirmDetection', err);
+          },
+        });
     }
+  }
+  listeFormation() {
+    this.cameraService.geCurrentFormationListe().subscribe({
+      next: (data) => {
+        this.formationListe = data;
+      },
+      error: (err) => {
+        console.log('error dans onConfirmDetection', err);
+      },
+    });
+  }
+  ajoutNewEtudiant() {
+    console.log('on ajoute un etudiant', this.donneeEtudiant.value);
+    this.spinnerBlackCamera = true;
+    this.cameraService.ajoutNewEtudiant(this.donneeEtudiant.value).subscribe({
+      next: (data) => {
+        this.createNewEtudiant = false;
+        this.spinnerBlackCamera = false;
+        this.confirmationDetection = false;
+        this.showMessagePresenceFait = false;
+        this.cardPhotoConfirmation = true;
+        (this.modal.nativeElement as any).modal('hide');
+      },
+      error: (err) => {
+        this.spinnerBlackCamera = false;
+        (this.modal.nativeElement as any).modal('hide');
+        console.log('error dans onConfirmDetection', err);
+      },
+    });
   }
 }

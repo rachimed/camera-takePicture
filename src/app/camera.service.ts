@@ -22,6 +22,10 @@ export class CameraService {
     return this.http.get<any>(`${this.baseUrl}/formation`);
   }
 
+  geCurrentFormationListe(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/formationListe`);
+  }
+
   getEtudiantsByFormation(id: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/formation/etudiants/${id}`);
   }
@@ -36,5 +40,8 @@ export class CameraService {
     return this.http.get<any>(
       `${this.baseUrl}/etudiantAbsentAPM/${etudiantID}/${formationID}`
     );
+  }
+  ajoutNewEtudiant(data: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/ajoutEtudiant`, data);
   }
 }

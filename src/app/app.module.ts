@@ -46,6 +46,7 @@ import { MessageComponent } from './message/message.component';
     MatIconModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     CookieModule.withOptions(),
   ],
   exports: [],
